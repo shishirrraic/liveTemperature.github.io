@@ -73,7 +73,7 @@ window.addEventListener("load", getData(genFunction));
 
 function submitTempThreshold() {
     var threshold = document.getElementById('inTempThreshold').value;
-    firebase.database().ref('setting/maxTempThreshold').set(threshold);
+    firebase.database().ref('setting/maxThreshold').set(threshold);
 }
 
 function updateCurrentTemperature() {
@@ -84,7 +84,7 @@ function updateCurrentTemperature() {
 
 function getData(callbackIN) {
 
-    firebase.database().ref('setting/maxTempThreshold').on('value', function(snapshot){
+    firebase.database().ref('setting/maxThreshold').on('value', function(snapshot){
         document.getElementById('inTempThreshold').value = snapshot.val()
     })
     updateCurrentTemperature()
