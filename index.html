@@ -77,19 +77,38 @@ function getData(callbackIN) {
         document.getElementById('inTempThreshold').value = snapshot.val()
     })
     updateCurrentTemperature()
-    var ref = firebase.database().ref('temp1/all');
+    var ref = firebase.database().ref('temp/all');
 
     // console.log("start range is " + startReportDate / 1000);
     // console.log("end range is " + endReportDate / 1000);
 
 
 
-    ref.orderByChild("timestamp")
-        .startAt(startReportDate / 1000)
+    ref.startAt(startReportDate / 1000)
         .endAt(endReportDate / 1000)
+        .orderByChild('timestamp')
         .once('value').then(function(snapshot) {
-            callbackIN(snapshot.val())
+
+            var arrayData = [];
+            snapshot.forEach(function(childSnapshot) {
+              // key will be "ada" the first time and "alan" the second time
+                var key = childSnapshot.key;
+                // childData will be the actual contents of the child
+                var childData = childSnapshot.val();
+               
+                arrayData.push({
+                    "x": new Date(childData['timestamp'] * 1000),
+                    "y": childData['value']
+                })
+                
+    
+
+
+    
         });
+        callbackIN(arrayData);
+
+    });
 
     /*
     ref.orderByChild("timestamp")
@@ -103,19 +122,18 @@ function getData(callbackIN) {
 }
 
 
-function genFunction(data) {
+function genFunction(arrayData) {
     // console.log(Object.keys(data))
     // console.log(data)
-    var arrayData = [];
+    // var arrayData = [];
 
-    for (var key in data) {
-        arrayData.push({
-            "x": new Date(data[key]['timestamp'] * 1000),
-            "y": data[key]['value']
-        })
+    // for (var key in data) {
+    //     arrayData.push({
+    //         "x": new Date(data[key]['timestamp'] * 1000),
+    //         "y": data[key]['value']
+    //     })
 
-    }
-    // console.log(arrayData)
+    // }
 
     var ctx = document.getElementById('myChart').getContext('2d');
     var data = {

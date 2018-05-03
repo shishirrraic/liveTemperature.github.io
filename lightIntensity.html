@@ -77,29 +77,41 @@ function getData(callbackIN) {
 
     firebase.database().ref('setting/maxLightIntensityThreshold').on('value', function(snapshot){
 //need to change with a new database for light intensity
-        var ref = firebase.database().ref('temp1/all');
+        var ref = firebase.database().ref('light/all');
 
         ref.orderByChild("timestamp")
             .startAt(startReportDate/1000)
             .endAt(endReportDate/1000)
             .on('value', function(snapshot1) {
-                callbackIN(snapshot1.val(),snapshot.val())
+                var arrayData = [];
+                snapshot1.forEach(function(childSnapshot) {
+                // key will be "ada" the first time and "alan" the second time
+                    var key = childSnapshot.key;
+                    // childData will be the actual contents of the child
+                    var childData = childSnapshot.val();
+               
+                    arrayData.push({
+                        "x": new Date(childData['timestamp'] * 1000),
+                        "y": childData['value']
+                    })
+               }); 
+                callbackIN(arrayData,snapshot.val())
             });
 });
 }
 
 
-function genFunction(data,lightIntensityThreshold) {
+function genFunction(arrayData,lightIntensityThreshold) {
     // console.log(data)
     // console.log(lightIntensityThreshold)
-    var arrayData = [];
+    // var arrayData = [];
 
-    for (var key in data) {
-        arrayData.push({
-            "x": new Date(data[key]['timestamp']*1000),
-            "y": data[key]['value']
-        })
-    }
+    // for (var key in data) {
+    //     arrayData.push({
+    //         "x": new Date(data[key]['timestamp']*1000),
+    //         "y": data[key]['value']
+    //     })
+    // }
 
     var ctx = document.getElementById('myChart').getContext('2d');
     var data = {
