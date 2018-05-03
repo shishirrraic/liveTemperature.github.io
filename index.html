@@ -43,9 +43,9 @@ $(function() {
     $('#reportrange').daterangepicker({
         startDate: startReportDate,
         endDate: endReportDate,
-        timePicker: true,
-        timePicker24Hour: true,
-        timePickerIncrement: 30,
+        // timePicker: true,
+        // timePicker24Hour: true,
+        // timePickerIncrement: 30,
         ranges: {
             'Today': [moment(), moment()],
             'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
@@ -90,8 +90,8 @@ function getData(callbackIN) {
     updateCurrentTemperature()
     var ref = firebase.database().ref('temp/all');
 
-    // console.log("start range is " + startReportDate / 1000);
-    // console.log("end range is " + endReportDate / 1000);
+    console.log("start range is " + startReportDate / 1000);
+    console.log("end range is " + endReportDate / 1000);
 
 
     ref.startAt(startReportDate / 1000)
