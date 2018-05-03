@@ -75,7 +75,7 @@ function getData(callbackIN) {
     updateCurrentLightIntensity()
 
 
-    firebase.database().ref('setting/maxLightIntensityThreshold').on('value', function(snapshot){
+    firebase.database().ref('setting/maxLightIntensityThreshold').once('value').then(function(snapshot){
 //need to change with a new database for light intensity
         var ref = firebase.database().ref('light/all');
 
