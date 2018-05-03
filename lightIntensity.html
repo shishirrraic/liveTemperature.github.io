@@ -66,7 +66,7 @@ function submitLightThreshold() {
 
 function updateCurrentLightIntensity(){
     //need to change with a new database for light intensity
-  firebase.database().ref('temp/current/value').on('value',function(snapshot){
+  firebase.database().ref('light/current/value').on('value',function(snapshot){
       document.getElementById('currentLightIntensityLabel').innerHTML = "Current Light Intensity "+snapshot.val()
   });
 }
