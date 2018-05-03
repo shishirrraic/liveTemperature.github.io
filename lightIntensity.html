@@ -36,9 +36,12 @@
      }
 
      $('#reportrange').daterangepicker({
-         startDate: startReportDate,
-         endDate: endReportDate,
-         ranges: {
+          startDate: startReportDate,
+          endDate: endReportDate,
+          timePicker: true,
+          timePicker24Hour: true,
+          timePickerIncrement: 30,
+          ranges: {
              'Today': [moment(), moment()],
              'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
              'Last 7 Days': [moment().subtract(6, 'days'), moment()],
@@ -79,10 +82,29 @@ function getData(callbackIN) {
 //need to change with a new database for light intensity
         var ref = firebase.database().ref('light/all');
 
+        // ref.orderByChild("timestamp")
+        //     .startAt(startReportDate/1000)
+        //     .endAt(endReportDate/1000)
+        //     .on('value', function(snapshot1) {
+        //         var arrayData = [];
+        //         snapshot1.forEach(function(childSnapshot) {
+        //         // key will be "ada" the first time and "alan" the second time
+        //             var key = childSnapshot.key;
+        //             // childData will be the actual contents of the child
+        //             var childData = childSnapshot.val();
+               
+        //             arrayData.push({
+        //                 "x": new Date(childData['timestamp'] * 1000),
+        //                 "y": childData['value']
+        //             })
+        //        }); 
+        //         callbackIN(arrayData,snapshot.val())
+        //     });
+
         ref.orderByChild("timestamp")
             .startAt(startReportDate/1000)
             .endAt(endReportDate/1000)
-            .on('value', function(snapshot1) {
+            .once('value').then(function(snapshot1) {
                 var arrayData = [];
                 snapshot1.forEach(function(childSnapshot) {
                 // key will be "ada" the first time and "alan" the second time
@@ -97,7 +119,7 @@ function getData(callbackIN) {
                }); 
                 callbackIN(arrayData,snapshot.val())
             });
-});
+    });
 }
 
 
