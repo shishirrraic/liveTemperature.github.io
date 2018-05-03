@@ -67,7 +67,7 @@ function submitTempThreshold() {
 
 function updateCurrentTemperature() {
     firebase.database().ref('temp/current/value').on('value', function(snapshot) {
-        document.getElementById('currentTempLabel').innerHTML ="Current Temperature "+ String(snapshot.val()) + '&#8451;'
+        document.getElementById('currentTempLabel').innerHTML ="Current Temperature "+ String(snapshot.val()) + '&#8457;'
     });
 }
 
